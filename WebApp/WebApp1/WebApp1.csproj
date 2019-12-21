@@ -45,16 +45,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DapperExtensions, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DapperExtensions.1.6.3\lib\net45\DapperExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -117,16 +132,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\BaseDal.cs" />
+    <Compile Include="Dal\SqlServerFixture.cs" />
+    <Compile Include="Dal\UserDal.cs" />
+    <Compile Include="Models\ApiResult.cs" />
+    <Compile Include="Models\Entity\UserEntity.cs" />
+    <Compile Include="Models\Entity\UserEntityMap.cs" />
+    <Compile Include="RestApi\UserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Variable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Knowledge.mdf" />
+    <Content Include="App_Data\Knowledge_log.ldf">
+      <DependentUpon>Knowledge.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -138,6 +170,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Functional\HttpHandle.js" />
+    <Content Include="Scripts\Functional\User.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -147,6 +181,19 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.culture.en-US.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.culture.zh-TW.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.extension.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.grid.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.messages.en-US.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.messages.zh-TW.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twcalendar.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twcalendar.ori.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twdatepicker.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twdatepicker.ori.min.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twdatetimepicker.js" />
+    <Content Include="Scripts\Kendo\extend\kendo.twdatetimepicker.ori.min.js" />
+    <Content Include="Scripts\Kendo\kendo.all.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -162,11 +209,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

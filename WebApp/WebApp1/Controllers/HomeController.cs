@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApp1.Models;
 
 namespace WebApp1.Controllers
 {
@@ -10,6 +11,11 @@ namespace WebApp1.Controllers
     {
         public ActionResult Index()
         {
+            if (ViewData["userData"] == null)
+            {
+                UserData userData = new UserData();
+                ViewData["userData"] = userData;
+            }
             return View();
         }
 

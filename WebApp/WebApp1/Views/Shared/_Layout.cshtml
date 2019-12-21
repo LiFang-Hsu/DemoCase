@@ -1,12 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="@Url.Content("~/Scripts/Functional/User.js?"+Variable.Version)"></script>
+    <script src="@Url.Content("~/Scripts/Functional/HttpHandle.js?"+Variable.Version)"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    <title>@ViewBag.Title - 知識管理系統</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/kendo")
     @Scripts.Render("~/bundles/modernizr")
+    @using WebApp1.Models;
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,13 +21,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
+                    @{
+                        UserData userData = (UserData)ViewData["userData"];
+                        if (userData == null || userData.Id == null)
+                        {
+                            <li>@Html.ActionLink("登入", "Index", "Login")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("登出", "LoginOut", "Login")</li>
+                        }
+                    }
                 </ul>
             </div>
         </div>
@@ -32,12 +46,14 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>&copy; @DateTime.Now.Year - 知識管理系統 - Version:@Variable.Version</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendo")
     @RenderSection("scripts", required: false)
 </body>
 </html>

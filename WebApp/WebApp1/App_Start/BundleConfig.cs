@@ -9,7 +9,7 @@ namespace WebApp1
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-3.3.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -22,9 +22,17 @@ namespace WebApp1
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                        "~/Scripts/Kendo/kendo.all.min.js",
+                        "~/Scripts/Kendo/extend/kendo*"
+                        ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css/kendo").Include(
+                      "~/Content/kendo/kendo*"));
         }
     }
 }

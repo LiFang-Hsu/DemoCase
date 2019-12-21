@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "註冊";
+}
+<h2>@ViewBag.Title</h2>
+<div id="FormUser">
+    <table>
+        <tr>
+            <td>帳號：</td>
+            <td>
+                <input id="Id"
+                       name="Id"
+                       title="帳號"
+                       class="k-textbox"
+                       placeholder="請輸入帳號"
+                       required
+                       validationMessage="帳號為必填"
+                       data-bind="value: prjName" />
+            </td>
+        </tr>
+        <tr>
+            <td>姓名：</td>
+            <td>
+                <input id="Name"
+                       name="Name"
+                       title="姓名"
+                       class="k-textbox"
+                       placeholder="請輸入姓名"
+                       required
+                       validationMessage="姓名為必填"
+                       data-bind="value: prjName" />
+            </td>
+        </tr>
+        <tr>
+            <td>Email：</td>
+            <td>
+                <input id="Email"
+                       name="Email"
+                       title="Email"
+                       class="k-textbox"
+                       type="email"
+                       placeholder="請輸入Email"
+                       required
+                       validationMessage="Email為必填"
+                       data-bind="value: prjName" />
+            </td>
+        </tr>
+        <tr>
+            <td>密碼：</td>
+            <td>
+                <input id="Password"
+                       name="Password"
+                       title="密碼"
+                       class="k-textbox"
+                       type="password"
+                       placeholder="請輸入密碼"
+                       required
+                       validationMessage="密碼為必填"
+                       data-bind="value: prjName" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="button" value="註冊" onclick="Register()" />
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    function Register() {
+        var validator = $("#FormUser").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            userArg.Id = $("#Id").val();
+            userArg.Name = $("#Name").val();
+            userArg.Email = $("#Email").val();
+            userArg.Password = $("#Password").val();
+            console.log(userArg);
+            var url = "Register/Register";
+            var successCallBack = function (res) {
+                console.log(res);
+                //操作處理
+                if (res.Status == "1")//操作成功
+                {
+                    alert("註冊成功，請回首頁重新登入");
+                    window.location = "/";
+                }
+                else//操作失敗
+                {
+                    alert(res.Message);
+                }
+            }
+            var errorCallBack = function (res) {
+                //Message.Show(res, MessageType.Error, "Error Load");
+                alert(res.Message)
+            }
+
+            HttpHandle.SendPost(url, userArg, successCallBack, errorCallBack);
+        }
+    }
+</script>
