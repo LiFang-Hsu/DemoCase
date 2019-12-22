@@ -17,12 +17,12 @@ namespace WebApp1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult Register(UserData userData)
-        {
-            var apiResult = this.userController.Create(userData);
-            //apiurl
-            return Json(apiResult, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult Register(UserData userData)
+        //{
+        //    var apiResult = this.userController.Create(userData);
+        //    //apiurl
+        //    return Json(apiResult, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

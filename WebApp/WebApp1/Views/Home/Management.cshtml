@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "系統人員資料維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section funcBar{
+    <button id="btn-create" class="btn btn-default" />新增
+    <button id="btn-update" class="btn btn-default" />修改
+    <button id="btn-read" class="btn btn-default" />查詢
+    <button id="btn-delete" class="btn btn-default" />刪除
+}
+
+<div id="grid"></div>
+
+@section scripts{
+    <script>
+
+        var chkList = [];
+
+        $(document).ready(function Main() {
+
+            QueryAll();
+
+            RegisterBtnDelete();
+
+        });
+
+        function QueryAll() {
+
+            var url = "/User/QueryAll";
+
+            var successCallBack = function (res) {
+                console.log(res);
+                //操作處理
+                if (res.Status == "0")//操作成功
+                {
+                    var dataSource = JSON.parse(res.Data);
+                    RenderGrid(dataSource);
+                }
+                else//操作失敗
+                {
+                    alert(res.Message);
+                }
+            }
+            var errorCallBack = function (res) {
+                alert(res.Message)
+            }
+
+            HttpHandle.SendPost(url, userArg, successCallBack, errorCallBack);
+        }
+
+        function RegisterBtnDelete() {
+
+            $('#btn-delete').on('click', Delete);
+            function Delete() {
+                //取得要刪除的帳號清單
+                var arrIds = new Array();
+                $('#grid').data('kendoGrid').tbody.find('input:checkbox:checked[name="chkbox"]').each(function (i) {
+                    arrIds[i] = this.id;
+                })
+                //開始刪除
+                var url = "/User/Delete";
+                var successCallBack = function (res) {
+                    console.log(res);
+                    //操作處理
+                    if (res.Status == "0")//操作成功
+                    {
+                        alert("刪除成功");
+                    }
+                    else//操作失敗
+                    {
+                        alert(res.Message);
+                    }
+                }
+                var errorCallBack = function (res) {
+                    alert(res.Message)
+                }
+                HttpHandle.SendPost(url, arrIds, successCallBack, errorCallBack);
+            }
+        }
+
+        function RenderGrid(dataSource) {
+
+            $('#grid').html('');
+
+            $('#grid').kendoGrid({
+                dataSource: dataSource,
+                height: 400,
+                sortable: true,
+                pageable: true,
+                columns: [
+                    {
+                        width: '5%',
+                        template: function (dataItem) {
+                            return '<input type="checkbox" name="chkbox" class="chk" id="' + dataItem.get('Id') + '" />';
+                        }
+                    },
+                    {
+                        field: 'Id',
+                        title: '帳號',
+                        attributes: { 'name': 'cell-id' }
+                    },
+                    {
+                        field: 'Name',
+                        title: '姓名'
+                    },
+                    {
+                        field: "Email",
+                        title: 'E-mail'
+                    },
+                    {
+                        field: "Password",
+                        title: '密碼'
+                    }
+                ]
+            });
+        }
+
+    </script>
+
+}

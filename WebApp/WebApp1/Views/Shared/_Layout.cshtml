@@ -13,17 +13,19 @@
     @using WebApp1.Models;
 </head>
 <body>
+    <div class=".loaaging"></div>
+    <div id="message-box"></div>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
+            @*<div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-            </div>
+            </div>*@
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                @*<ul class="nav navbar-nav">
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
@@ -31,18 +33,23 @@
                         UserData userData = (UserData)ViewData["userData"];
                         if (userData == null || userData.Id == null)
                         {
-                            <li>@Html.ActionLink("登入", "Index", "Login")</li>
+                        <li>@Html.ActionLink("登入", "Index", "Login")</li>
                         }
                         else
                         {
-                            <li>@Html.ActionLink("登出", "LoginOut", "Login")</li>
+                        <li>@Html.ActionLink("登出", "LoginOut", "Login")</li>
                         }
                     }
-                </ul>
+                </ul>*@
             </div>
         </div>
     </div>
     <div class="container body-content">
+        <h2>@ViewBag.Title</h2>
+        <div class="function-bar">
+            @RenderSection("funcBar", required: false)
+        </div>
+
         @RenderBody()
         <hr />
         <footer>

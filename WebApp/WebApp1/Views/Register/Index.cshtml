@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "註冊";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewBag.Title</h2>
+
 <div id="FormUser">
     <table>
         <tr>
@@ -69,16 +70,19 @@
     function Register() {
         var validator = $("#FormUser").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
+
             userArg.Id = $("#Id").val();
             userArg.Name = $("#Name").val();
             userArg.Email = $("#Email").val();
             userArg.Password = $("#Password").val();
             console.log(userArg);
-            var url = "Register/Register";
+
+            var url = "/User/Create";
+
             var successCallBack = function (res) {
                 console.log(res);
                 //操作處理
-                if (res.Status == "1")//操作成功
+                if (res.Status == "0")//操作成功
                 {
                     alert("註冊成功，請回首頁重新登入");
                     window.location = "/";

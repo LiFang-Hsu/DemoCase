@@ -10,7 +10,7 @@ namespace WebApp1.Models.Entity
     {
         public UserEntityMap()
         {
-            Table("User");
+            Table("Member");
             Map(m => m.Seq).Column("Seq").Key(KeyType.Identity);
             Map(m => m.Id).Column("Id");
             Map(m => m.Name).Column("Name");

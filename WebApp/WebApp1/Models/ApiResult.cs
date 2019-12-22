@@ -9,5 +9,9 @@ namespace WebApp1.Models
     {
         public int Status { get; set; }
         public string Message { get; set; }
+        /// <summary>
+        /// 封包資料
+        /// </summary>
+        public string Data { get; set; }
     }
 }

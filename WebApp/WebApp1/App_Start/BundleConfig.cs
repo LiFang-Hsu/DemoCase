@@ -32,7 +32,7 @@ namespace WebApp1
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/kendo").Include(
-                      "~/Content/kendo/kendo*"));
+                      "~/Content/kendo/kendo.common.min.css", "~/Content/kendo/kendo.default.min.css"));
         }
     }
 }

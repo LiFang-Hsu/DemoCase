@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApp1.Api;
 
 namespace WebApp1.Controllers
 {
     public class LoginController : Controller
     {
+        UserController userController = new UserController();
         // GET: Login
         public ActionResult Index()
         {

@@ -23,5 +23,35 @@ namespace WebApp1.Service
             }
             return result;
         }
+
+        public UserData Read(UserData userData)
+        {
+            var result = default(UserData);
+
+            try
+            {
+                result = this.userDal.Read(userData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public List<UserData> QueryAll(UserData userData)
+        {
+            var result = default(List<UserData>);
+
+            try
+            {
+                result = this.userDal.QueryAll(userData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

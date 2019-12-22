@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "";
 }
 @using WebApp1.Models;
 
@@ -24,19 +24,62 @@
         UserData userData = (UserData)ViewData["userData"];
         if (userData == null || userData.Id == null)
         {
-            <div class="col-md-4">
+            <div id="FormLogin" class="col-md-4">
                 <h2>登入</h2>
-                帳號：<input type="text" name="id" id="id" required /><br />
-                密碼：<input type="password" name="pwd" id="pwd" required /><br />
+                帳號：<input id="Id" name="Id" placeholder="請輸入帳號"
+                          required validationMessage="帳號為必填" /><br />
+                密碼：
+                <input id="Password"
+                       name="Password"
+                       title="密碼"
+                       type="password"
+                       placeholder="請輸入密碼"
+                       required
+                       validationMessage="密碼為必填" /><br />
                 <button id="Login" onclick="Login()" class="btn btn-default">登入</button>
                 @Html.ActionLink("註冊", "Index", "Register")
-                
+
             </div>
         }
     }
 </div>
-<script>
-    function Login() {
 
-    }
-</script>
+@section scripts{
+    <script>
+        function Login() {
+            var validator = $("#FormLogin").kendoValidator().data("kendoValidator");
+            if (validator.validate()) {
+                userArg.Id = $("#Id").val();
+                userArg.Password = $("#Password").val();
+                console.log(userArg);
+                var url = "/User/Read";
+                var successCallBack = function (res) {
+                    console.log(res);
+                    //操作處理
+                    if (res.Status == "0")//操作成功
+                    {
+                        var obj = JSON.parse(res.Data);
+                        userArg.Name = obj.Name;
+                        userArg.Email = obj.Email;
+
+                        alert('系統管理者: ' + userArg.Name + ' 登入成功');
+
+                        location.href = '/Home/Management?id=' + userArg.Id;
+
+                        //window.location = "/";
+                    }
+                    else//操作失敗
+                    {
+                        alert(res.Message);
+                    }
+                }
+                var errorCallBack = function (res) {
+                    //Message.Show(res, MessageType.Error, "Error Load");
+                    alert(res.Message)
+                }
+
+                HttpHandle.SendPost(url, userArg, successCallBack, errorCallBack);
+            }
+        }
+    </script>
+}
