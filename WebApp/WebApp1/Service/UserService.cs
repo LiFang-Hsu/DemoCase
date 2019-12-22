@@ -53,5 +53,35 @@ namespace WebApp1.Service
             }
             return result;
         }
+
+        public bool Delete(List<string> arrIds)
+        {
+            dynamic result;
+
+            try
+            {
+                result = this.userDal.Delete(arrIds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public string UpdateOne(UserData userData)
+        {
+            var result = string.Empty;
+
+            try
+            {
+                result = this.userDal.UpdateOne(userData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

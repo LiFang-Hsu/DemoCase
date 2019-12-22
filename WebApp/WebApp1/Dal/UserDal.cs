@@ -74,6 +74,49 @@ namespace WebApp1.Dal
             return result;
         }
 
+        internal string UpdateOne(UserData userData)
+        {
+            var result = string.Empty;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    conn.Open();
+                    string sqlCommand = "UPDATE Member " +
+                        "SET Name=@Name,Email=@Email,Password=@Password " +
+                        "WHERE Id = @Id";
+                    var data = new { Id = userData.Id, Name = userData.Name, Email=userData.Email , Password=userData.Password };
+                    conn.Execute(sqlCommand, data);
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public bool Delete(List<string> arrIds)
+        {
+            bool result = false;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    conn.Open();
+                    string sqlCommand = @"Delete From Member Where Id = @Id";
+                    result = conn.Execute(sqlCommand, arrIds.Select(item => new { Id = item })) > 0;
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
         public UserData Read(UserData userData)
         {
             dynamic result = null;

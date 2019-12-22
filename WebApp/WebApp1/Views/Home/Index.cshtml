@@ -4,11 +4,11 @@
 @using WebApp1.Models;
 
 <div class="jumbotron">
-    <h1>知識庫管理系統</h1>
+    <h1>人員管理系統</h1>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <h2>新增知識</h2>
         <p>
             (新增知識描述)
@@ -19,7 +19,7 @@
         <h2>Get more libraries</h2>
         <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
+    </div>*@
     @{
         UserData userData = (UserData)ViewData["userData"];
         if (userData == null || userData.Id == null)

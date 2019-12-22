@@ -24,7 +24,18 @@ namespace WebApp1
 
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
                         "~/Scripts/Kendo/kendo.all.min.js",
-                        "~/Scripts/Kendo/extend/kendo*"
+                        "~/Scripts/Kendo/extend/kendo.culture.en-US.min.js",
+                        "~/Scripts/Kendo/extend/kendo.culture.zh-TW.min.js",
+                        "~/Scripts/Kendo/extend/kendo.extension.js",
+                        "~/Scripts/Kendo/extend/kendo.grid.js",
+                        "~/Scripts/Kendo/extend/kendo.messages.en-US.min.js",
+                        "~/Scripts/Kendo/extend/kendo.messages.zh-TW.min.js",
+                        "~/Scripts/Kendo/extend/kendo.twcalendar.js",
+                        "~/Scripts/Kendo/extend/kendo.twcalendar.ori.min.js",
+                        "~/Scripts/Kendo/extend/kendo.twdatepicker.js",
+                        "~/Scripts/Kendo/extend/kendo.twdatepicker.ori.min.js",
+                        "~/Scripts/Kendo/extend/kendo.twdatetimepicker.js",
+                        "~/Scripts/Kendo/extend/kendo.twdatetimepicker.ori.min.js"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

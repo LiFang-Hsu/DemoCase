@@ -81,9 +81,26 @@ namespace WebApp1.Api
             var apiResult = new ApiResult();
             try
             {
-                //var result = this.userService.QueryAll(userData);
+                apiResult.Status = this.userService.Delete(arrIds) ? 0 : 99999;
+            }
+            catch (Exception ex)
+            {
+                //寫入log檔 or 資料庫...
+                apiResult.Status = 1;
+                apiResult.Message = ex.Message;
+            }
+            return apiResult;
+        }
+
+        [Route("User/UpdateOne")]
+        [HttpPost()]
+        public ApiResult UpdateOne(UserData userData)
+        {
+            var apiResult = new ApiResult();
+            try
+            {
+                var result = this.userService.UpdateOne(userData);
                 apiResult.Status = 0;
-                apiResult.Data = "";// JsonConvert.SerializeObject(result);
             }
             catch (Exception ex)
             {

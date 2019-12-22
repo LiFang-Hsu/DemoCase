@@ -4,8 +4,8 @@
 }
 
 @section funcBar{
-    <button id="btn-create" class="btn btn-default" />新增
-    <button id="btn-update" class="btn btn-default" />修改
+    @*<button id="btn-create" class="btn btn-default" />新增*@
+    @*<button id="btn-update" class="btn btn-default" />修改*@
     <button id="btn-read" class="btn btn-default" />查詢
     <button id="btn-delete" class="btn btn-default" />刪除
 }
@@ -14,28 +14,21 @@
 
 @section scripts{
     <script>
-
         var chkList = [];
-
         $(document).ready(function Main() {
-
-            QueryAll();
-
+            RenderGrid();
+            RegisterBtnQuery();
             RegisterBtnDelete();
-
         });
 
-        function QueryAll() {
-
+        function QueryAll(options) {
             var url = "/User/QueryAll";
-
             var successCallBack = function (res) {
-                console.log(res);
                 //操作處理
                 if (res.Status == "0")//操作成功
                 {
                     var dataSource = JSON.parse(res.Data);
-                    RenderGrid(dataSource);
+                    options.success(dataSource);
                 }
                 else//操作失敗
                 {
@@ -49,15 +42,28 @@
             HttpHandle.SendPost(url, userArg, successCallBack, errorCallBack);
         }
 
+        function RegisterBtnQuery() {
+            $('#btn-read').on('click', Query);
+            function Query() {
+                $('#grid').data('kendoGrid').dataSource.read();
+            }
+        }
         function RegisterBtnDelete() {
-
             $('#btn-delete').on('click', Delete);
-            function Delete() {
+            function GetIdList() {
                 //取得要刪除的帳號清單
                 var arrIds = new Array();
                 $('#grid').data('kendoGrid').tbody.find('input:checkbox:checked[name="chkbox"]').each(function (i) {
                     arrIds[i] = this.id;
                 })
+                return arrIds;
+            };
+            function Delete() {
+                var arrIds = GetIdList();
+                if (arrIds.length === 0) {
+                    alert('尚未選擇項目。');
+                    return;
+                }
                 //開始刪除
                 var url = "/User/Delete";
                 var successCallBack = function (res) {
@@ -66,6 +72,8 @@
                     if (res.Status == "0")//操作成功
                     {
                         alert("刪除成功");
+
+                        location.reload();
                     }
                     else//操作失敗
                     {
@@ -79,26 +87,84 @@
             }
         }
 
-        function RenderGrid(dataSource) {
-
-            $('#grid').html('');
-
+        function RenderGrid() {
             $('#grid').kendoGrid({
-                dataSource: dataSource,
+                dataSource: new kendo.data.DataSource({
+                    transport: {
+                        read: function (options) {
+                            QueryAll(options);
+                        },
+                        update: function (options) {
+                            UpdateOne(options);
+                        }
+                    },
+                    batch: true,
+                    pageable: true,
+                    pageSize: 10,
+                    schema: {
+                        model: {
+                            id: 'Id',
+                            field: {
+                                Id: {
+                                    editable: false
+                                },
+                                Name: {
+                                    editable: false,
+                                    validation: {
+                                        required: true
+                                    }
+                                },
+                                Email: {
+                                    editable: true,
+                                    validation: {
+                                        required: true,
+                                        email: true
+                                    }
+                                },
+                                Password: {
+                                    editable: true,
+                                    validation: {
+                                        required: true,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }),
+                //toolbar: ["create"],
                 height: 400,
                 sortable: true,
                 pageable: true,
+                autoBind: false,
+                editable: {
+                    update: true,
+                    mode: 'popup',
+                    confirmation: '確定嗎?'
+                },
+                edit: function (e) {
+                    e.container.find("input[name=chkbox]").hide();
+                    e.container.find("input[name=Id]").attr("disabled", "disabled");
+                    //$('.chk').closest('div').hide();
+                   
+                },
+                noRecords: {
+                    template: '<p style="color: red;">無資料</p>'
+                },
+                error: function(e) {
+                    console.log('Status: ' + e.status + ' Error message: ' + e.errorThrown);
+                },
                 columns: [
                     {
                         width: '5%',
+                        editable: false,
                         template: function (dataItem) {
                             return '<input type="checkbox" name="chkbox" class="chk" id="' + dataItem.get('Id') + '" />';
                         }
                     },
                     {
                         field: 'Id',
+                        editable: false,
                         title: '帳號',
-                        attributes: { 'name': 'cell-id' }
                     },
                     {
                         field: 'Name',
@@ -111,11 +177,47 @@
                     {
                         field: "Password",
                         title: '密碼'
+                    },
+                    {
+                        field: 'edit',
+                        title: ' ',
+                        command: {
+                            name: 'edit',
+                            text: '編輯'
+                        }
                     }
                 ]
             });
         }
 
-    </script>
+        function UpdateOne(options) {
+            console.log(options);
 
+            userArg.Id = options.data.models[0].Id;
+            userArg.Name = options.data.models[0].Name;
+            userArg.Email = options.data.models[0].Email;
+            userArg.Password = options.data.models[0].Password;
+
+            var url = "/User/UpdateOne";
+            var successCallBack = function (res) {
+                //操作處理
+                if (res.Status == "0")//操作成功
+                {
+                    alert("更新成功!");
+
+                    $('#grid').data('kendoGrid').dataSource.read();
+                    //options.success(dataSource);
+                }
+                else//操作失敗
+                {
+                    alert(res.Message);
+                }
+            }
+            var errorCallBack = function (res) {
+                alert(res.Message)
+            }
+
+            HttpHandle.SendPost(url, userArg, successCallBack, errorCallBack);
+        }
+    </script>
 }
